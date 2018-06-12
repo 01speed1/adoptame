@@ -1,17 +1,26 @@
+// rutas de breed
 const router = require('express').Router();
+const breedModel = require('../../models/master_detail/breed-model');
 
-router.get('/breed', (req, res)=> {
-    res.end('En breed');
+
+router.get('/', async (req, res)=> {
+
+    async function getBreeds () {
+        let breeds =  await breedModel.find()
+        res.json({
+            Ok: true,
+            breeds: breeds
+        })
+    }
+    
+    getBreeds().catch( err => res.json({error: "algo salio mal :v "}))
+    
 })
 
 module.exports = router;
 
+
 /*
-
-
-
-
-
 router.get('/tasks', (req, res, next)=> {
     db.task.find( (err, tasks) => {
         if(err) return next(err);

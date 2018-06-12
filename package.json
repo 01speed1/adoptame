@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "cabron": "nodemon server/app.js"
+    "dev": "nodemon server/app.js"
   },
   "private": true,
   "dependencies": {
