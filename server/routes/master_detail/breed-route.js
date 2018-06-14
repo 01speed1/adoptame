@@ -39,12 +39,13 @@ router.post('/', (req, res) => {
 
     AnimalTypeModel.find({animal}, (err, animalExist) => {
 
-        if(err) {
+        if(err) { 
             return res.status(500).json({
                 Ok:         false,
                 status:     500,
                 message:    "Ups! Database error. POST - Breed",
-                error:      err
+                error:      err,
+                vacio : ""
             })            
         }
 
