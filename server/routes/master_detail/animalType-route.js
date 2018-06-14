@@ -1,29 +1,31 @@
 // animalType Routes
-
-const router = require('express').Router();
+const express = require('express');
+const router = express();
 const animalTypeModel = require('../../models/master_detail/animalType-model');
 
 
-// ======================= Guardar Tipo Animal ========================== 
+// ======================= Obtener Tipo Animal ========================== 
 
 router.get('/',  (req, res)=> {
 
-    (async () => {
-        let types =  await animalTypeModel.find()
-        res.status(200).json({
-            Ok:       true,
-            status:   200, 
-            message:  "Solicitud exitosa! - AnimalTypes",
-            types:    types
-        })
-    })
+    let types = animalTypeModel.find({}, (err, types) => {
+        
+        if(err) {
+            return res.status(500).json({
+                Ok:       true,
+                status:   500, 
+                message:  'Wrong! Type don´t saved. Error server - GET TypeAnimal ',  
+                error:    err
+            })                
+        }
 
-    ().catch( err => res.status(500).json({
-        Ok:        false,
-        status:    500,
-        message:   "Ups!, Solicitud Denegada. Intentelo de Nuevo - GET AnimalTypes",
-        err:       err
-    }))
+            res.status(200).json({
+                Ok:       true,
+                status:   200, 
+                message:  'Congratulation! Types successfully - GET TypeAnimal !',
+                types:    types
+            })
+    })        
     
 });
 
@@ -33,54 +35,116 @@ router.get('/',  (req, res)=> {
 
 router.post('/', (req, res) => {
     var body = req.body;
-    
-    ( async () => {
 
-        let animal = new animalTypeModel({
-            type_animal : body.title
-        });
+    var type = new animalTypeModel({
+        type_animal: body.title
+    });
 
-        await animal.save()
+    if(!body.title || body.title.length === 0) {
+        return res.status(500).json({
+            Ok:         false,
+            status:     500, 
+            mensaje:    'Wrong! Type don´t saved. Field Unknown - POST TypeAnimal '            
+        }); 
+    }
 
-        res.json({OK:true, msn :"Animal save" })
+    type.save( (err, typeSaved) => {
+        if(err) {
+            return res.status(400).json({
+                Ok:         false,
+                status:     200, 
+                mensaje:    'Wrong! Type don´t saved. Error server - POST TypeAnimal ',  
+                errors:      err 
+            }); 
+        }   
 
-      /*  var data = await ( !body.title ? 
-                                    animalTypeModel.save(body) : console.log('Escriba algo'))
-                        .then( res => {
-                            return json({
-                                Ok: true
-                            })
-                        })*/
-
-
-        /*{
-            res.status(400).json({
-                error: 'Bad Data'
-            })
-        } else {
-            animalTypeModel.save(body, (err, task) => {
-                if(err) return next(err);
-                res.json(task);
-            })
-        }*/
-
+        res.status(200).json({
+            Ok:         true,
+            status:     200,
+            mensaje:    'Congratulation! Type created successfully - POST TypeAnimal !',
+            types:      typeSaved
+        }); 
     })
+})
 
-    ().catch( err => res.status(500).json({
-        Ok:        false,
-        status:    500,
-        message:   "Ups!, Solicitud Denegada. Intentelo de Nuevo - POST AnimalTypes",
-        err
-        
-    }))
+// ======================= Actualizar Tipo Animal ========================== 
+router.put('/:id', (req, res) => {
 
-    
+    var id = req.params.id;
+    var body = req.body;
+
+    if(!body.title || body.title.length === 0) {
+        return res.status(500).json({
+            Ok:         false,
+            status:     500, 
+            mensaje:    'Ups! Type don´t update. Field Unknown. - PUT AnimalTYpe'      
+        }); 
+    }
+
+    animalTypeModel.findById(id, (err, type) => {
+        if(err) {
+            return res.status(400).json({
+                Ok:         false,
+                status:     400, 
+                mensaje:    'Wrong!- ID don´t found. - PUT AnimalType',
+                mongo_er:   err      
+            });
+        }
+
+        type.type_animal = body.title;
+        type.save( (err, typeUpdate) => {
+            if(err) {
+                return res.status(501).json({
+                    Ok:         false,
+                    status:     501, 
+                    mensaje:    'Wrong! Type don´t update, error server. - PUT AnimalTYpe',
+                    mongo_er:   err      
+                });
+            }
+
+            res.status(200).json({
+                Ok:         true,
+                status:     200,
+                mensaje:    'Congratulation! Type update successfully - PUT TypeAnimal !',
+                types:      typeUpdate
+            })
+        })
+    })
 })
 
 
+// ======================= Eliminar Tipo Animal ========================== 
 
+router.delete('/:id', (req, res) => {
+    var id = req.params.id;
 
+    animalTypeModel.findByIdAndRemove(id, (err, type) => {
+        if(err) {
+            return res.status(400).json({
+                Ok:         false,
+                status:     400, 
+                mensaje:    'Wrong!- Animal don´t delete. - DELETE AnimalType',
+                mongo_er:   err      
+            });
+        }
 
+        if(!type) {
+            return res.status(500).json({
+                Ok:         false,
+                status:     500, 
+                mensaje:    'Wrong!- ID don´t exists. - DELETE AnimalType',
+                mongo_er:   err      
+            });
+        }
+
+        res.status(200).json({
+                Ok:         true,
+                status:     200, 
+                mensaje:    'Congratulations! Type deleted successfully. - DELETE AnimalType',
+                type:       type
+        })
+    })
+})
 
 
 module.exports = router;

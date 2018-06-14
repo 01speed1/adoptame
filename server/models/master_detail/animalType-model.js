@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
-var typeAnimal = new Schema({
+var typeSchema = new Schema({
     type_animal:  { type: String, required: [true, 'Este campo es obligatorio ... ']},    
-}, { collection: 'typeAnimal'} );
+}, { collection: 'types'} );
 
-module.exports = mongoose.model('typeAnimal', typeAnimal);
+module.exports = mongoose.model('type', typeSchema);

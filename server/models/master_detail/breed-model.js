@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 var TypeAnimalModel = require('./animalType-model');
 
-var breedModel = new Schema({
+var breedSchema = new Schema({
     breed_name:   { type: String, required: [true, 'Este campo es obligatorio ... ']},    
-    typeAnimal:   { type: Schema.Types.ObjectId, ref: 'TypeAnimalModel' }   // Relationship
-}, { collection: 'breedModel'} );
+    typeAnimal:   { type: Schema.Types.ObjectId, ref: 'type' }   // Relationship
+}, { collection: 'breeds'} );
 
-module.exports = mongoose.model('breed', breedModel);
+module.exports = mongoose.model('breed', breedSchema);

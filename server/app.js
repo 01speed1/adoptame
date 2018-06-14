@@ -1,12 +1,14 @@
 // Server
-const express = require('express');
-const app     = express();
+const express       = require('express');
+const app           = express();
+const bodyParser    = require('body-parser');
 // Conexion Database
-var mongoose = require('mongoose');
+var mongoose        = require('mongoose');
 // Request Web
-const cors    = require('cors');
+const cors          = require('cors');
+
 // Handler Directories
-const path    = require('path');
+// const path    = require('path');
 
 
 
@@ -21,8 +23,14 @@ mongoose.connection.openUri('mongodb://localhost:27017/adoptame',
 
 // Middleware
 app.use(cors())
-app.use(express.json()); // Esto es como el body-parser
-app.use(express.urlencoded({ extended: false }));
+// parce application/json
+app.use(bodyParser.json())
+// Parse application/x-www-form-urleconded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// app.use(express.json()); // Esto es como el body-parser
+// app.use(express.urlencoded({ extended: false }));
+
 
 // Routes
 app.use('/api',require('./routes/index.routes'))
@@ -33,10 +41,6 @@ app.get('/', (req, res)=> {
 
 // Settings
 app.set('port', process.env.PORT || 3000);
-
-
-
-
 
 // Start Server
 app.listen(app.get('port'), () => {
