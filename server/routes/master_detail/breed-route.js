@@ -62,7 +62,7 @@ router.post('/', (req, res) => {
             if(err) {
                 return res.status(400).json({
                     Ok:         false,
-                    status:     200, 
+                    status:     400, 
                     mensaje:    'Wrong! Breed don´t saved. Error server - POST Breed ',  
                     errors:      err 
                 }); 
@@ -75,8 +75,8 @@ router.post('/', (req, res) => {
                 if(err) {
                     return res.status(400).json({
                         Ok:         false,
-                        status:     200, 
-                        mensaje:    'Wrong! Breed don´t saved. Error server - POST Breed ',  
+                        status:     400, 
+                        mensaje:    'Wrong! ID TypeAnimal no found. Error server - POST Breed ',  
                         errors:      err 
                     }); 
                 }
@@ -88,20 +88,10 @@ router.post('/', (req, res) => {
                     mensaje:    'Congratulation! Breed created successfully - POST Breed !',
                     breed:      anim
                 }); 
-
             })
-
-            
-
-            
         })
     })
 })
-
-
-
-
-
 
 
 
