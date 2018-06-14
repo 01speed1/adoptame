@@ -10,9 +10,6 @@ const cors          = require('cors');
 // Handler Directories
 // const path    = require('path');
 
-
-
-
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
 (error, response) => {
