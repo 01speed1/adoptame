@@ -1,4 +1,5 @@
 // rutas de Breed
+
 const router = require('express').Router();
 const BreedModel = require('../../models/master_detail/breed-model');
 const AnimalTypeModel = require('../../models/master_detail/animalType-model');
@@ -17,7 +18,7 @@ router.get('/', (req, res) => {
 })          
 
 
-// ==================== POST - Guardar Raza con TypeAnimal
+// ==================== POST - Guardar Raza con TypeAnimal ====================
 
 router.post('/', (req, res) => {
 
@@ -85,7 +86,7 @@ router.post('/', (req, res) => {
 
 
 
-// ==================== PUT - Actualizar Raza con TypeAnimal
+// ==================== PUT - Actualizar Raza con TypeAnimal ====================
 
 router.put('/:id', (req, res) => {
 
@@ -138,12 +139,50 @@ router.put('/:id', (req, res) => {
                         breed:      typeAnimal
                 }); 
             })
+        })          
+    })
+})
+
+
+// ==================== PUT - Actualizar Raza con TypeAnimal ====================
+
+router.delete('/:id', (req, res) => {
+
+    var id = req.params.id;        
+
+    BreedModel.findByIdAndRemove(id, (err, breedDelete)=>{
+
+        if (err) {
+            return res.status(500).json({
+                OK:         false,
+                status:     500,
+                mensaje:    'Wrong! Breed don´t deleted. Error server - DELETE Breed',
+                error: err  
+            })
+        }
+
+        if(!breedDelete) {
+            return res.status(500).json({
+                OK:         false,
+                status:     500,
+                mensaje:    'Wrong! Breed don´t deleted. ID don´t exists - DELETE Breed',
+                error: err  
+            })
+        }
+
+        BreedModel
+            .findById(breedDelete._id)
+            .populate('typeAnimal').exec( (err, typeAnimal) => {
+                res.status(200).json({
+                    Ok:         true,
+                    status:     200,
+                    mensaje:    'Congratulation! Breed deleted successfully - DELETE Breed !',
+                    breed:      typeAnimal
+            }); 
         })        
-        
+    
     })
 
-
-    
 })
 
 
