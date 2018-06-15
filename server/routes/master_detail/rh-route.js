@@ -1,23 +1,23 @@
 // rutas de Breed
 const router = require('express').Router();
-const ComplaintModel = require('../../models/master_detail/complaint-model');
+const RhModel = require('../../models/master_detail/rh-model');
 
 
-// ==================== Tipos de Denuncias '/api/master/complaint/'
+// ==================== Tipos de RH '/api/master/rh/'
 router.route('/')
-    // ==================== GET - Ver todos los Tipos de Denuncias
+    // ==================== GET - Ver todos los Tipos de Sangre
     .get((req, res) => {
     
-        ComplaintModel.find({})
-            .exec( (err, complaints) => {
+        RhModel.find({})
+            .exec( (err, rh) => {
                
                 res.json({
                     Ok: true,
-                    complaints: complaints
+                    rh: rh
                 })
             })  
     })
-    // ==================== POST - Guardar Tipo de Denuncia
+    // ==================== POST - Guardar Tipo de Sangre
     .post((req, res) => {
 
         var body = req.body; 
@@ -26,21 +26,21 @@ router.route('/')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Complaint don´t saved. Field Unknown. - POST Complaint'
+                mensaje:    'Ups! Rh don´t saved. Field Unknown. - POST Rh'
             });
             
         }
     
-        var complaint = new ComplaintModel({
-            complaint_type: body.type   
+        var rh = new RhModel({
+            rh_name: body.name   
         })
 
-        complaint.save((err, complaintCreated)=>{
+        rh.save((err, rhCreated)=>{
             if(err) {
                 return res.status(400).json({
                     Ok:         false,
                     status:     200, 
-                    mensaje:    'Wrong! Complaint don´t saved. DB server - POST Complaint',  
+                    mensaje:    'Wrong! Rh don´t saved. DB server - POST Rh',  
                     errors:      err 
                 }); 
             }
@@ -48,27 +48,27 @@ router.route('/')
             res.status(200).json({
                 Ok:             true,
                 status:         200,
-                mensaje:        'Congratulation! Complaint created successfully - POST Complaint!',
-                complaint:    complaintCreated
+                mensaje:        'Congratulation! Rh created successfully - POST Rh!',
+                Rh:    rhCreated
             }); 
 
         })
 
     })
 
-// ==================== Vacunas '/api/master/complaint/:id'
+// ==================== Tipo de Sangre '/api/master/rh/:id'
 router.route('/:id')
     // ==================== GET - Ver Tipo de Denuncia
     .get((req, res) => {
         let id =  req.params.id
 
-        ComplaintModel.findById(id, (err, complaint) => {
+        RhModel.findById(id, (err, rh) => {
 
             if (err) {
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! complaint not found. DB server - GET complaint ',
+                    mensaje:    'Wrong! Rh not found. DB server - GET Rh ',
                     error: err  
                 }); 
             }
@@ -76,14 +76,14 @@ router.route('/:id')
             res.status(200).json({
                 Ok: true,
                 status:200,
-                mensaje: "Success! complaint found. - GET complaint",
-                complaint: complaint
+                mensaje: "Success! Rh found. - GET Rh",
+                Rh: rh
             })
                
         })
               
     })
-    // ==================== PUT - Editar Tipo de Denuncia
+    // ==================== PUT - Editar Tipo de Sangre
     .put((req, res)=>{
         let id =  req.params.id
         let body = req.body
@@ -92,29 +92,29 @@ router.route('/:id')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Complaint don´t saved. Field Unknown. - PUT Complaint'
+                mensaje:    'Ups! Rh don´t saved. Field Unknown. - PUT Rh'
             });
             
         }
         
-        ComplaintModel.findById(id, (err, complaintFound)=>{
+        RhModel.findById(id, (err, rhFound)=>{
             if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Complaint not found. DB server - PUT Complaint',
+                    mensaje:    'Wrong! Rh not found. DB server - PUT Rh',
                     error: err  
                 })
             }
 
-            complaintFound.complaint_type = body.type
+            rhFound.rh_name = body.name
 
-            complaintFound.save((err, complaintUpdated) => {
+            rhFound.save((err, rhUpdated) => {
                 if (err){
                     return res.status(500).json({
                         OK:false,
                         status: 500,
-                        mensaje:    'Wrong! Complaint don´t saved. DB server - PUT Complaint',
+                        mensaje:    'Wrong! Rh don´t saved. DB server - PUT Rh',
                         error: err  
                     })
                 }
@@ -122,8 +122,8 @@ router.route('/:id')
                 res.status(200).json({
                     Ok:         true,
                     status:     200,
-                    mensaje:    'Congratulation! Complait updated successfully - PUT Complaint !',
-                    complaint:  complaintUpdated
+                    mensaje:    'Congratulation! Rh updated successfully - PUT Rh !',
+                    Rh:  rhUpdated
                 }); 
 
             })
@@ -132,18 +132,18 @@ router.route('/:id')
 
         })
     })
-    // ==================== DELETE - Tipo de denuncia
+    // ==================== DELETE - Tipo de Sangre
     .delete((req, res)=>{
 
         let id = req.params.id
 
-        ComplaintModel.findByIdAndRemove(id, (err, complaintDeleted)=>{
+        RhModel.findByIdAndRemove(id, (err, rhDeleted)=>{
 
             if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Complaint don´t deleted. DB server - DELETE Complaint',
+                    mensaje:    'Wrong! Rh don´t deleted. DB server - DELETE Rh',
                     error: err  
                 })
             }
@@ -151,8 +151,8 @@ router.route('/:id')
             res.status(200).json({
                 OK:true,
                 status: 200,
-                mensaje: "Success! Complaint deleted. - DELETE Complaint.",
-                complaint: complaintDeleted
+                mensaje: "Success! Rh deleted. - DELETE Rh.",
+                rh: rhDeleted
             })
         
         })
