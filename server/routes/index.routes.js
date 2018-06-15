@@ -7,6 +7,4 @@ router.use('/master/breed', require('./master_detail/breed-route'));
 router.use('/master/vaccination', require('./master_detail/vaccination-route'));
 
 
-
-
 module.exports = router;

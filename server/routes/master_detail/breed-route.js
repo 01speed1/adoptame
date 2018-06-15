@@ -37,27 +37,17 @@ router.post('/', (req, res) => {
         typeAnimal: animal
     })
 
-    AnimalTypeModel.find({animal}, (err, animalExist) => {
-
+    AnimalTypeModel.find({ animal }, (err, animalExist) => {
+        
         if(err) { 
             return res.status(500).json({
                 Ok:         false,
                 status:     500,
                 message:    "Ups! Database error. POST - Breed",
-                error:      err,
-                vacio : ""
+                error:      err                
             })            
         }
-
-        if(!animal) {
-            return res.status(500).json({
-                Ok:         false,
-                status:     500,
-                message:    "Ups! ID AnimalType unknown . POST - Breed",
-                error:      err
-            })            
-        }
-
+        
         breed.save( (err, breedSaved) => {
             
             if(err) {
@@ -70,8 +60,8 @@ router.post('/', (req, res) => {
             }
             
             BreedModel
-            .findById(breedSaved._id)
-            .populate('typeAnimal').exec((err, anim)=>{
+                .findById(breedSaved._id)
+                .populate('typeAnimal').exec((err, typeAnimal)=>{
 
                 if(err) {
                     return res.status(400).json({
@@ -82,18 +72,79 @@ router.post('/', (req, res) => {
                     }); 
                 }
 
-
                 res.status(200).json({
                     Ok:         true,
                     status:     200,
                     mensaje:    'Congratulation! Breed created successfully - POST Breed !',
-                    breed:      anim
+                    breed:      typeAnimal
                 }); 
             })
         })
     })
 })
 
+
+
+// ==================== PUT - Actualizar Raza con TypeAnimal
+
+router.put('/:id', (req, res) => {
+
+    var id = req.params.id;
+    var body = req.body;      
+    
+    console.log("Id ", id);
+    console.log("Body ", body.name + " Animal: ", body.animal);
+
+    
+    if(body.name == '' || body.animal == '' ) {
+        return res.status(500).json({
+            Ok:         false,
+            status:     500, 
+            mensaje:    'Ups! Breed don´t saved. Field Unknown. - POST Breed'
+        }); 
+    }        
+
+    BreedModel.findById(id, (err, breed) => {
+        
+        if(err) {
+            return res.status(400).json({
+                Ok:         false,
+                status:     400, 
+                mensaje:    'Wrong! ID TypeAnimal no found. Error server - PUT Breed ',  
+                errors:      err 
+            }); 
+        }
+        
+        breed.breed_name = body.name;
+        breed.typeAnimal = body.animal;
+        breed.save( (err, breedUpdate) => {
+
+            if(err) {
+                return res.status(400).json({
+                    Ok:         false,
+                    status:     400, 
+                    mensaje:    'Wrong! ID TypeAnimal no found. Error server - POST Breed ',  
+                    errors:      err 
+                }); 
+            }
+            
+            BreedModel
+                .findById(breedUpdate._id)
+                .populate('typeAnimal').exec( (err, typeAnimal) => {
+                    res.status(200).json({
+                        Ok:         true,
+                        status:     200,
+                        mensaje:    'Congratulation! Breed update successfully - PUT Breed !',
+                        breed:      typeAnimal
+                }); 
+            })
+        })        
+        
+    })
+
+
+    
+})
 
 
 module.exports = router;
