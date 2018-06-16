@@ -1,5 +1,4 @@
-// rutas de Breed
-
+// Routes by Breed
 const router = require('express').Router();
 const BreedModel = require('../../models/master_detail/breed-model');
 const AnimalTypeModel = require('../../models/master_detail/animalType-model');

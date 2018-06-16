@@ -25,9 +25,6 @@ app.use(bodyParser.json())
 // Parse application/x-www-form-urleconded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// app.use(express.json()); // Esto es como el body-parser
-// app.use(express.urlencoded({ extended: false }));
-
 
 // Routes
 app.use('/api',require('./routes/index.routes'))
