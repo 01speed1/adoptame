@@ -1,32 +1,32 @@
 // rutas de Breed
 const router = require('express').Router();
-const RhModel = require('../../models/master_detail/rh-model');
+const FoodModel = require('../../models/master_detail/food-model');
 
 
-// ==================== Tipos de RH '/api/master/rh/'
+// ==================== Compida '/api/master/food/'
 router.route('/')
-    // ==================== GET - Ver todos los Tipos de Sangre
+    // ==================== GET - Ver todos las Comidas
     .get((req, res) => {
     
-        RhModel.find({})
-            .exec( (err, rh) => {
+        FoodModel.find({})
+            .exec( (err, food) => {
 
                 if(err) {
                     return res.status(500).json({
                         Ok:         false,
                         status:     500, 
-                        mensaje:    'Wrong! Rh don´t found. DB server - Get Rh',  
+                        mensaje:    'Wrong! Food don´t found. DB server - Get Food',  
                         errors:      err 
                     }); 
                 }
                
                 res.json({
                     Ok: true,
-                    rh: rh
+                    food: food
                 })
             })  
     })
-    // ==================== POST - Guardar Tipo de Sangre
+    // ==================== POST - Guardar Comida
     .post((req, res) => {
 
         var body = req.body; 
@@ -35,21 +35,22 @@ router.route('/')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Rh don´t saved. Field Unknown. - POST Rh'
+                mensaje:    'Ups! Food don´t saved. Field Unknown. - POST Food'
             });
             
         }
     
-        var rh = new RhModel({
-            rh_name: body.name   
+        var food = new FoodModel({
+            food_name: body.name   
         })
 
-        rh.save((err, rhCreated)=>{
+        food.save((err, foodCreated)=>{
+
             if(err) {
                 return res.status(500).json({
                     Ok:         false,
                     status:     500, 
-                    mensaje:    'Wrong! Rh don´t saved. DB server - POST Rh',  
+                    mensaje:    'Wrong! Food don´t saved. DB server - POST Food',  
                     errors:      err 
                 }); 
             }
@@ -57,50 +58,50 @@ router.route('/')
             res.status(200).json({
                 Ok:             true,
                 status:         200,
-                mensaje:        'Congratulation! Rh created successfully - POST Rh!',
-                Rh:    rhCreated
+                mensaje:        'Congratulation! Food created successfully - POST Food!',
+                Food:    foodCreated
             }); 
 
         })
 
     })
 
-// ==================== Tipo de Sangre '/api/master/rh/:id'
+// ==================== Comida '/api/master/food/:id'
 router.route('/:id')
-    // ==================== GET - Ver Tipo de Denuncia
+    // ==================== GET - Ver Comida
     .get((req, res) => {
         let id =  req.params.id
 
-        RhModel.findById(id, (err, rh) => {
+        FoodModel.findById(id, (err, foodFound) => {
 
             if (err) {
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Rh not found. DB server - GET Rh ',
+                    mensaje:    'Wrong! Food not found. DB server - GET Food ',
                     error: err  
                 }); 
             }
 
-            if (rh == null) {
+            if (foodFound == null) {
                 return res.status(400).json({
                     OK:false,
                     status: 400,
-                    mensaje:    'Wrong! Rh not found, id useless. - GET Rh ', 
+                    mensaje:    'Wrong! Food not found, id useless. - GET Food ', 
                 }); 
             }
             
             res.status(200).json({
                 Ok: true,
                 status:200,
-                mensaje: "Success! Rh found. - GET Rh",
-                Rh: rh
+                mensaje: "Success! Food found. - GET Food",
+                Food: foodFound
             })
                
         })
               
     })
-    // ==================== PUT - Editar Tipo de Sangre
+    // ==================== PUT - Editar Comida
     .put((req, res)=>{
         let id =  req.params.id
         let body = req.body
@@ -109,29 +110,29 @@ router.route('/:id')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Rh don´t saved. Field Unknown. - PUT Rh'
+                mensaje:    'Ups! Food don´t saved. Field Unknown. - PUT Food'
             });
             
         }
         
-        RhModel.findById(id, (err, rhFound)=>{
+        FoodModel.findById(id, (err, foodFound)=>{
             if (err){
                 return res.status(500).json({
-                    OK:false,
-                    status: 500,
-                    mensaje:    'Wrong! Rh not found. DB server - PUT Rh',
+                    OK:         false,
+                    status:     500,
+                    mensaje:    'Wrong! Food not found. DB server - PUT Food',
                     error: err  
                 })
             }
 
-            rhFound.rh_name = body.name
+            foodFound.food_name = body.name
 
-            rhFound.save((err, rhUpdated) => {
+            foodFound.save((err, foodUpdated) => {
                 if (err){
                     return res.status(500).json({
                         OK:false,
                         status: 500,
-                        mensaje:    'Wrong! Rh don´t saved. DB server - PUT Rh',
+                        mensaje:    'Wrong! Food don´t saved. DB server - PUT Food',
                         error: err  
                     })
                 }
@@ -139,8 +140,8 @@ router.route('/:id')
                 res.status(200).json({
                     Ok:         true,
                     status:     200,
-                    mensaje:    'Congratulation! Rh updated successfully - PUT Rh !',
-                    Rh:  rhUpdated
+                    mensaje:    'Congratulation! Food updated successfully - PUT Food !',
+                    Food:  foodUpdated
                 }); 
 
             })
@@ -154,13 +155,13 @@ router.route('/:id')
 
         let id = req.params.id
 
-        RhModel.findByIdAndRemove(id, (err, rhDeleted)=>{
+        FoodModel.findByIdAndRemove(id, (err, foodDeleted)=>{
 
             if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Rh don´t deleted. DB server - DELETE Rh',
+                    mensaje:    'Wrong! Food don´t deleted. DB server - DELETE Food',
                     error: err  
                 })
             }
@@ -168,8 +169,8 @@ router.route('/:id')
             res.status(200).json({
                 OK:true,
                 status: 200,
-                mensaje: "Success! Rh deleted. - DELETE Rh.",
-                rh: rhDeleted
+                mensaje: "Success! Food deleted. - DELETE Food.",
+                rh: foodDeleted
             })
         
         })

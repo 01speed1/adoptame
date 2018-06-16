@@ -10,6 +10,15 @@ router.route('/')
     
         ComplaintModel.find({})
             .exec( (err, complaints) => {
+
+                if(err) {
+                    return res.status(500).json({
+                        Ok:         false,
+                        status:     500, 
+                        mensaje:    'Wrong! Complaints don´t found. DB server - Get Complaints',  
+                        errors:      err 
+                    }); 
+                }
                
                 res.json({
                     Ok: true,
@@ -70,6 +79,14 @@ router.route('/:id')
                     status: 500,
                     mensaje:    'Wrong! complaint not found. DB server - GET complaint ',
                     error: err  
+                }); 
+            }
+
+            if (complaint == null) {
+                return res.status(400).json({
+                    OK:false,
+                    status: 400,
+                    mensaje:    'Wrong! complaint not found, id useless. - GET complaint ', 
                 }); 
             }
             

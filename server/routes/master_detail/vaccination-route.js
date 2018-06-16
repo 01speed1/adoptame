@@ -10,6 +10,15 @@ router.route('/')
     
         VaccinationModel.find({})
             .exec( (err, vaccination) => {
+
+                if(err) {
+                    return res.status(500).json({
+                        Ok:         false,
+                        status:     500, 
+                        mensaje:    'Wrong! Vacination don´t found. DB server - Get Vaccination',  
+                        errors:      err 
+                    }); 
+                }
                
                 res.json({
                     Ok: true,
@@ -71,6 +80,13 @@ router.route('/:id')
                     status: 500,
                     mensaje:    'Wrong! Vaccination not found. DB server - GET Vaccination ',
                     error: err  
+                }); 
+            }
+            if (vaccination == null) {
+                return res.status(400).json({
+                    OK:false,
+                    status: 400,
+                    mensaje:    'Wrong! Vaccination not found, id useless. - GET Vaccination ', 
                 }); 
             }
             
