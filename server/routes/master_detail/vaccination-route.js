@@ -26,6 +26,7 @@ router.route('/')
                 })
             })  
     })
+
     // ==================== POST - Guardar Vacuna
     .post((req, res) => {
 
@@ -157,7 +158,7 @@ router.route('/:id')
 
         VaccinationModel.findByIdAndRemove(id, (err, vaccinationDeleted)=>{
 
-            if (err){
+            if (err) {
                 return res.status(500).json({
                     OK:false,
                     status: 500,
