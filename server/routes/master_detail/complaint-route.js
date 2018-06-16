@@ -1,33 +1,32 @@
 // rutas de Breed
 const router = require('express').Router();
-const VaccinationModel = require('../../models/master_detail/vaccination-model');
+const ComplaintModel = require('../../models/master_detail/complaint-model');
 
 
-// ==================== Vacunas '/api/master/vaccinations/'
+// ==================== Tipos de Denuncias '/api/master/complaint/'
 router.route('/')
-    // ==================== GET - Ver todas Vacunas
+    // ==================== GET - Ver todos los Tipos de Denuncias
     .get((req, res) => {
     
-        VaccinationModel.find({})
-            .exec( (err, vaccination) => {
+        ComplaintModel.find({})
+            .exec( (err, complaints) => {
 
                 if(err) {
                     return res.status(500).json({
                         Ok:         false,
                         status:     500, 
-                        mensaje:    'Wrong! Vacination don´t found. DB server - Get Vaccination',  
+                        mensaje:    'Wrong! Complaints don´t found. DB server - Get Complaints',  
                         errors:      err 
                     }); 
                 }
                
                 res.json({
                     Ok: true,
-                    vaccination: vaccination
+                    complaints: complaints
                 })
             })  
     })
-
-    // ==================== POST - Guardar Vacuna
+    // ==================== POST - Guardar Tipo de Denuncia
     .post((req, res) => {
 
         var body = req.body; 
@@ -36,22 +35,21 @@ router.route('/')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Vaccination don´t saved. Field Unknown. - POST Vaccination'
+                mensaje:    'Ups! Complaint don´t saved. Field Unknown. - POST Complaint'
             });
             
         }
     
-        var vaccination = new VaccinationModel({
-            vaccination_code: body.code,
-            vaccination_name: body.name
+        var complaint = new ComplaintModel({
+            complaint_type: body.type   
         })
 
-        vaccination.save((err, vaccinationCreated)=>{
+        complaint.save((err, complaintCreated)=>{
             if(err) {
                 return res.status(400).json({
                     Ok:         false,
                     status:     200, 
-                    mensaje:    'Wrong! Vaccination don´t saved. DB server - POST Vaccination ',  
+                    mensaje:    'Wrong! Complaint don´t saved. DB server - POST Complaint',  
                     errors:      err 
                 }); 
             }
@@ -59,49 +57,50 @@ router.route('/')
             res.status(200).json({
                 Ok:             true,
                 status:         200,
-                mensaje:        'Congratulation! Vaccination created successfully - POST Vaccination !',
-                vaccination:    vaccinationCreated
+                mensaje:        'Congratulation! Complaint created successfully - POST Complaint!',
+                complaint:    complaintCreated
             }); 
 
         })
 
     })
 
-// ==================== Vacunas '/api/master/vaccinations/:id'
+// ==================== Vacunas '/api/master/complaint/:id'
 router.route('/:id')
-    // ==================== GET - Ver Vacuna
+    // ==================== GET - Ver Tipo de Denuncia
     .get((req, res) => {
         let id =  req.params.id
 
-        VaccinationModel.findById(id, (err, vaccination) => {
+        ComplaintModel.findById(id, (err, complaint) => {
 
             if (err) {
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Vaccination not found. DB server - GET Vaccination ',
+                    mensaje:    'Wrong! complaint not found. DB server - GET complaint ',
                     error: err  
                 }); 
             }
-            if (vaccination == null) {
+
+            if (complaint == null) {
                 return res.status(400).json({
                     OK:false,
                     status: 400,
-                    mensaje:    'Wrong! Vaccination not found, id useless. - GET Vaccination ', 
+                    mensaje:    'Wrong! complaint not found, id useless. - GET complaint ', 
                 }); 
             }
             
             res.status(200).json({
                 Ok: true,
                 status:200,
-                mensaje: "Success! Vaccination found. - GET Vaccination",
-                vaccination: vaccination
+                mensaje: "Success! complaint found. - GET complaint",
+                complaint: complaint
             })
                
         })
               
     })
-    // ==================== PUT - Editar Vacuna
+    // ==================== PUT - Editar Tipo de Denuncia
     .put((req, res)=>{
         let id =  req.params.id
         let body = req.body
@@ -110,39 +109,38 @@ router.route('/:id')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Vaccination don´t saved. Field Unknown. - PUT Vaccination'
+                mensaje:    'Ups! Complaint don´t saved. Field Unknown. - PUT Complaint'
             });
             
         }
         
-        VaccinationModel.findById(id, (err, vaccinationFound)=>{
+        ComplaintModel.findById(id, (err, complaintFound)=>{
             if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Vaccination not found. DB server - PUT Vaccination',
+                    mensaje:    'Wrong! Complaint not found. DB server - PUT Complaint',
                     error: err  
                 })
             }
 
-            vaccinationFound.vaccination_code = body.code
-            vaccinationFound.vaccination_name = body.name
+            complaintFound.complaint_type = body.type
 
-            vaccinationFound.save((err, vaccinationUpdated) => {
+            complaintFound.save((err, complaintUpdated) => {
                 if (err){
                     return res.status(500).json({
                         OK:false,
                         status: 500,
-                        mensaje:    'Wrong! Vaccination don´t saved. DB server - PUT Vaccination',
+                        mensaje:    'Wrong! Complaint don´t saved. DB server - PUT Complaint',
                         error: err  
                     })
                 }
 
                 res.status(200).json({
-                    Ok:             true,
-                    status:         200,
-                    mensaje:        'Congratulation! Vaccination updated successfully - PUT Vaccination !',
-                    vaccination:    vaccinationUpdated
+                    Ok:         true,
+                    status:     200,
+                    mensaje:    'Congratulation! Complait updated successfully - PUT Complaint !',
+                    complaint:  complaintUpdated
                 }); 
 
             })
@@ -151,18 +149,18 @@ router.route('/:id')
 
         })
     })
-    // ==================== DELETE - Borrar Vacuna
+    // ==================== DELETE - Tipo de denuncia
     .delete((req, res)=>{
 
         let id = req.params.id
 
-        VaccinationModel.findByIdAndRemove(id, (err, vaccinationDeleted)=>{
+        ComplaintModel.findByIdAndRemove(id, (err, complaintDeleted)=>{
 
-            if (err) {
+            if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Vaccination don´t deleted. DB server - DELETE Vaccination',
+                    mensaje:    'Wrong! Complaint don´t deleted. DB server - DELETE Complaint',
                     error: err  
                 })
             }
@@ -170,13 +168,11 @@ router.route('/:id')
             res.status(200).json({
                 OK:true,
                 status: 200,
-                mensaje: "Success! Vaccionation deleted. - DELETE Vaccination.",
-                vaccinationDeleted: vaccinationDeleted
+                mensaje: "Success! Complaint deleted. - DELETE Complaint.",
+                complaint: complaintDeleted
             })
         
         })
     })
-
-
 
 module.exports = router;

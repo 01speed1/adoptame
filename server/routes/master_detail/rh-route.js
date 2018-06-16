@@ -1,33 +1,32 @@
 // rutas de Breed
 const router = require('express').Router();
-const VaccinationModel = require('../../models/master_detail/vaccination-model');
+const RhModel = require('../../models/master_detail/rh-model');
 
 
-// ==================== Vacunas '/api/master/vaccinations/'
+// ==================== Tipos de RH '/api/master/rh/'
 router.route('/')
-    // ==================== GET - Ver todas Vacunas
+    // ==================== GET - Ver todos los Tipos de Sangre
     .get((req, res) => {
     
-        VaccinationModel.find({})
-            .exec( (err, vaccination) => {
+        RhModel.find({})
+            .exec( (err, rh) => {
 
                 if(err) {
                     return res.status(500).json({
                         Ok:         false,
                         status:     500, 
-                        mensaje:    'Wrong! Vacination don´t found. DB server - Get Vaccination',  
+                        mensaje:    'Wrong! Rh don´t found. DB server - Get Rh',  
                         errors:      err 
                     }); 
                 }
                
                 res.json({
                     Ok: true,
-                    vaccination: vaccination
+                    rh: rh
                 })
             })  
     })
-
-    // ==================== POST - Guardar Vacuna
+    // ==================== POST - Guardar Tipo de Sangre
     .post((req, res) => {
 
         var body = req.body; 
@@ -36,22 +35,21 @@ router.route('/')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Vaccination don´t saved. Field Unknown. - POST Vaccination'
+                mensaje:    'Ups! Rh don´t saved. Field Unknown. - POST Rh'
             });
             
         }
     
-        var vaccination = new VaccinationModel({
-            vaccination_code: body.code,
-            vaccination_name: body.name
+        var rh = new RhModel({
+            rh_name: body.name   
         })
 
-        vaccination.save((err, vaccinationCreated)=>{
+        rh.save((err, rhCreated)=>{
             if(err) {
-                return res.status(400).json({
+                return res.status(500).json({
                     Ok:         false,
-                    status:     200, 
-                    mensaje:    'Wrong! Vaccination don´t saved. DB server - POST Vaccination ',  
+                    status:     500, 
+                    mensaje:    'Wrong! Rh don´t saved. DB server - POST Rh',  
                     errors:      err 
                 }); 
             }
@@ -59,49 +57,50 @@ router.route('/')
             res.status(200).json({
                 Ok:             true,
                 status:         200,
-                mensaje:        'Congratulation! Vaccination created successfully - POST Vaccination !',
-                vaccination:    vaccinationCreated
+                mensaje:        'Congratulation! Rh created successfully - POST Rh!',
+                Rh:    rhCreated
             }); 
 
         })
 
     })
 
-// ==================== Vacunas '/api/master/vaccinations/:id'
+// ==================== Tipo de Sangre '/api/master/rh/:id'
 router.route('/:id')
-    // ==================== GET - Ver Vacuna
+    // ==================== GET - Ver Tipo de Denuncia
     .get((req, res) => {
         let id =  req.params.id
 
-        VaccinationModel.findById(id, (err, vaccination) => {
+        RhModel.findById(id, (err, rh) => {
 
             if (err) {
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Vaccination not found. DB server - GET Vaccination ',
+                    mensaje:    'Wrong! Rh not found. DB server - GET Rh ',
                     error: err  
                 }); 
             }
-            if (vaccination == null) {
+
+            if (rh == null) {
                 return res.status(400).json({
                     OK:false,
                     status: 400,
-                    mensaje:    'Wrong! Vaccination not found, id useless. - GET Vaccination ', 
+                    mensaje:    'Wrong! Rh not found, id useless. - GET Rh ', 
                 }); 
             }
             
             res.status(200).json({
                 Ok: true,
                 status:200,
-                mensaje: "Success! Vaccination found. - GET Vaccination",
-                vaccination: vaccination
+                mensaje: "Success! Rh found. - GET Rh",
+                Rh: rh
             })
                
         })
               
     })
-    // ==================== PUT - Editar Vacuna
+    // ==================== PUT - Editar Tipo de Sangre
     .put((req, res)=>{
         let id =  req.params.id
         let body = req.body
@@ -110,39 +109,38 @@ router.route('/:id')
             return res.status(500).json({
                 Ok:         false,
                 status:     500, 
-                mensaje:    'Ups! Vaccination don´t saved. Field Unknown. - PUT Vaccination'
+                mensaje:    'Ups! Rh don´t saved. Field Unknown. - PUT Rh'
             });
             
         }
         
-        VaccinationModel.findById(id, (err, vaccinationFound)=>{
+        RhModel.findById(id, (err, rhFound)=>{
             if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Vaccination not found. DB server - PUT Vaccination',
+                    mensaje:    'Wrong! Rh not found. DB server - PUT Rh',
                     error: err  
                 })
             }
 
-            vaccinationFound.vaccination_code = body.code
-            vaccinationFound.vaccination_name = body.name
+            rhFound.rh_name = body.name
 
-            vaccinationFound.save((err, vaccinationUpdated) => {
+            rhFound.save((err, rhUpdated) => {
                 if (err){
                     return res.status(500).json({
                         OK:false,
                         status: 500,
-                        mensaje:    'Wrong! Vaccination don´t saved. DB server - PUT Vaccination',
+                        mensaje:    'Wrong! Rh don´t saved. DB server - PUT Rh',
                         error: err  
                     })
                 }
 
                 res.status(200).json({
-                    Ok:             true,
-                    status:         200,
-                    mensaje:        'Congratulation! Vaccination updated successfully - PUT Vaccination !',
-                    vaccination:    vaccinationUpdated
+                    Ok:         true,
+                    status:     200,
+                    mensaje:    'Congratulation! Rh updated successfully - PUT Rh !',
+                    Rh:  rhUpdated
                 }); 
 
             })
@@ -151,18 +149,18 @@ router.route('/:id')
 
         })
     })
-    // ==================== DELETE - Borrar Vacuna
+    // ==================== DELETE - Tipo de Sangre
     .delete((req, res)=>{
 
         let id = req.params.id
 
-        VaccinationModel.findByIdAndRemove(id, (err, vaccinationDeleted)=>{
+        RhModel.findByIdAndRemove(id, (err, rhDeleted)=>{
 
-            if (err) {
+            if (err){
                 return res.status(500).json({
                     OK:false,
                     status: 500,
-                    mensaje:    'Wrong! Vaccination don´t deleted. DB server - DELETE Vaccination',
+                    mensaje:    'Wrong! Rh don´t deleted. DB server - DELETE Rh',
                     error: err  
                 })
             }
@@ -170,13 +168,11 @@ router.route('/:id')
             res.status(200).json({
                 OK:true,
                 status: 200,
-                mensaje: "Success! Vaccionation deleted. - DELETE Vaccination.",
-                vaccinationDeleted: vaccinationDeleted
+                mensaje: "Success! Rh deleted. - DELETE Rh.",
+                rh: rhDeleted
             })
         
         })
     })
-
-
 
 module.exports = router;
