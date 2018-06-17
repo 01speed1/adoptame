@@ -3,12 +3,12 @@ var Schema   = mongoose.Schema;
 
 var rh = new Schema({
     rh_name:   { 
-        type: String, 
-        unique:true,
-        required: [true, 'rh_name es obligatorio ... '],
-        enum:['O+', 'O-', 'A+', 'A-', 'AB+', 'AB-', 'B+', 'B-']},
+        type:       String, 
+        unique:     true,
+        required:   [true, 'Campo obligatorio ... '],
+        enum:       ['A+', 'A-', 'AB+', 'AB-', 'B+', 'B-']},
         
     
-}, { collection: 'rh'} );
+}, { collection: 'type-rh'} );
 
-module.exports = mongoose.model('rh', rh);
+module.exports = mongoose.model('Rh', rh);

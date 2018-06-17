@@ -1,19 +1,26 @@
 var router = require('express').Router();
 const MedicineModel = require('../../models/master_detail/medicines-model');
 
-router.get('/', (req, res) => {
+// ==================== GET Types-Medicines ====================
+router
+    .get('/', (req, res) => {         
+        res.json({ message: 'En types-medicines '})
+})       
 
-    MedicineModel.find({}, (err, medicine) => {
-        
-        res.json({
-            Ok:     true,
-            status: 200,
-            message: 'Congratulations!, Medicine List. GET - Medicines',
-            medicine: medicine
-        })
-    
+
+// ==================== POST Types-Medicines ====================
+router
+    .post('/', (req, res) => {
+        var body = req.body;
+
+        if(body.name != '' || body.presentation != '') {
+            res.status(501).json({
+                Ok:         false,
+                status:     501,
+                mensaje:    'Ups! Rh don´t saved. Field Unknown. - POST Rh'
+            })
+        }
     })
-})          
 
 
 module.exports =  router;

@@ -1,3 +1,4 @@
+/*
 // rutas de Breed
 const router = require('express').Router();
 const VaccinationModel = require('../../models/master_detail/vaccination-model');
@@ -180,3 +181,4 @@ router.route('/:id')
 
 
 module.exports = router;
+*/
