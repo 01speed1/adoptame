@@ -1,4 +1,4 @@
-const typeModel = require('../../models/master_detail/type-model');
+const typeModel = require('../../models/master_detail/types-model');
 
 // Controller 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
 
     updateTypeAnimal: async (req, res) => {
         try {
-            console.log("Params: ", req.params, " Body", req.body);
+            
             const { typeId } = req.params;
             const newType    = req.body;
             const typeUpdate = await typeModel.findByIdAndUpdate(typeId, newType);
@@ -53,9 +53,19 @@ module.exports = {
 
     deleteTypeAnimal: async (req, res) => {
         try {
-            
+            const { typeId } = req.params;
+            const typeDelete = await typeModel.findByIdAndRemove(typeId);
+            res.status(200).json({
+                Ok:         true,
+                message:    "Congratulations, TypeAnimal Delete - DELETE",
+                types:      typeDelete
+            });
         } catch (error) {
-            
+            return res.status(404).json({
+                Ok:         false,
+                message:    "Ups! It's has a occured an error - DELETE", 
+                error:      error                
+            })
         }
 
     }

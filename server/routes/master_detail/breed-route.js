@@ -1,7 +1,33 @@
-// Routes by Breed
+// TypeAnimal Routes
 const router = require('express').Router();
-const BreedModel = require('../../models/master_detail/breed-model');
-const AnimalTypeModel = require('../../models/master_detail/animalType-model');
+
+const {
+    getBreeds,
+    createBreed,
+    updateBreed,
+    deleteBreed
+} = require('../../controllers/master-detail/breed-controller')
+
+// GET TypeAnimal
+router.get('/', getBreeds);
+
+// POST TypeAnimal
+router.post('/', createBreed);
+
+// PUT TypeAnimal
+router.put('/:breedId', updateBreed);
+
+// DELETE TypeAnimal
+router.delete('/:breedId', deleteBreed);
+
+module.exports = router;
+
+
+
+
+
+
+/*
 
 router.get('/', (req, res) => {
     
@@ -186,3 +212,5 @@ router.delete('/:id', (req, res) => {
 
 
 module.exports = router;
+
+*/
