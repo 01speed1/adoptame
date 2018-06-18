@@ -14,6 +14,7 @@ const cors          = require('cors');
 // /api/master
 const typesRoutes = require('./routes/master_detail/types-route');
 const breedRoutes = require('./routes/master_detail/breed-route');
+const donationRoutes = require('./routes/master_detail/donation-route');
 
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
@@ -35,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // Routes
 app.use('/api/master/type', typesRoutes);
 app.use('/api/master/breed', breedRoutes);
+app.use('/api/master/donation', donationRoutes);
 app.get('/', (req, res)=> { res.send('Ok in index'); })
 
 
