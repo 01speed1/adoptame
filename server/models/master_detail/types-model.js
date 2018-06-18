@@ -7,4 +7,4 @@ var typeSchema = new Schema({
     }
 }, { collection: 'type-animals'} );
 
-module.exports = mongoose.model('TypeAnimal', typeSchema);
+module.exports = mongoose.model('Type', typeSchema);
