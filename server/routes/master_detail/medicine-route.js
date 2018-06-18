@@ -4,7 +4,9 @@ const MedicineModel = require('../../models/master_detail/medicines-model');
 // ==================== GET Types-Medicines ====================
 router
     .get('/', (req, res) => {         
-        res.json({ message: 'En types-medicines '})
+        res.json({ 
+            message: 'En types-medicines '
+        })
 })       
 
 

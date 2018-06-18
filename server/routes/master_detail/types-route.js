@@ -1,9 +1,29 @@
-// animalType Routes
-const express = require('express');
-const router = express();
-const animalTypeModel = require('../../models/master_detail/animalType-model');
+// TypeAnimal Routes
+const router = require('express').Router();
+
+const {
+    
+    getTypesAnimal,
+    createTypeAnimal,
+    updateTypeAnimal
+
+} = require('../../controllers/master-detail/types-controller')
+
+// GET TypeAnimal
+router.get('/type', getTypesAnimal);
+// POST TypeAnimal
+router.post('/type', createTypeAnimal);
+// PUT TypeAnimal
+router.put('/type/:typeId', updateTypeAnimal);
 
 
+module.exports = router;
+
+
+
+
+
+/*
 // ======================= Obtener Tipo Animal ========================== 
 
 router.get('/',  (req, res)=> {
@@ -66,6 +86,20 @@ router.post('/', (req, res) => {
         }); 
     })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ======================= Actualizar Tipo Animal ========================== 
 router.put('/:id', (req, res) => {
@@ -148,3 +182,4 @@ router.delete('/:id', (req, res) => {
 
 
 module.exports = router;
+*/

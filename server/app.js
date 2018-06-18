@@ -10,6 +10,11 @@ const cors          = require('cors');
 // Handler Directories
 // const path    = require('path');
 
+// Routes
+// /api/master
+const typesRoutes = require('./routes/master_detail/types-route');
+
+
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
 (error, response) => {
@@ -20,18 +25,17 @@ mongoose.connection.openUri('mongodb://localhost:27017/adoptame',
 
 // Middleware
 app.use(cors())
-// parce application/json
+// parse application/json
+// app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use(bodyParser.json())
 // Parse application/x-www-form-urleconded
 app.use(bodyParser.urlencoded({ extended: false }))
 
 
 // Routes
-app.use('/api',require('./routes/index.routes'))
+app.use('/api/master', typesRoutes);
+app.get('/', (req, res)=> { res.send('Ok in index'); })
 
-app.get('/', (req, res)=> {
-    res.send('Ok in index');
-})
 
 // Settings
 app.set('port', process.env.PORT || 3000);
