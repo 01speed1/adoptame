@@ -1,24 +1,24 @@
-const typeObjectModel = require('../../models/master_detail/types-objects-model')
+const typeRolModel = require('../../models/master_detail/types-roles-model')
 
 module.exports = {
 
-    getTypeObject: async (req, res) => { 
-        const types  = await typeObjectModel.find({});
+    getTypeRol: async (req, res) => { 
+        const types  = await typeRolModel.find({});
         res.status(200).json({ 
             Ok:         true,   
-            message:    "Congratulations, TypeObject List - GET",
-            typeObject:  types
+            message:    "Congratulations, TypeRol List - GET",
+            typeRol:  types
         })
     },
 
-    createTypeObject: async (req, res) => {  
+    createTypeRol: async (req, res) => {  
         try {            
-            const typeObject  = new typeObjectModel(req.body);
-                                await typeObject.save();
+            const typeRol  = new typeRolModel(req.body);
+                                await typeRol.save();
             res.status(200).json({
                 Ok:         true,
-                message:    "Congratulations, TypeObject Save - POST",
-                type:       typeObject
+                message:    "Congratulations, TypeRol Save - POST",
+                type:       typeRol
             });
         } catch (error) {
             return res.status(500).json({
@@ -30,15 +30,15 @@ module.exports = {
         
     },
 
-    updateTypeObject: async (req, res) => {
+    updateTypeRol: async (req, res) => {
         try {
             
-            const { typeObjectId } = req.params;
-            const newTypeObject    = req.body;
-            const typeUpdate         = await typeObjectModel.findByIdAndUpdate(typeObjectId, newTypeObject);
+            const { typeRolId } = req.params;
+            const newTypeRol    = req.body;
+            const typeUpdate         = await typeRolModel.findByIdAndUpdate(typeRolId, newTypeRol);
             res.status(200).json({
                 Ok:         true,
-                message:    "Congratulations, TypeObject Update - PUT",
+                message:    "Congratulations, TypeRol Update - PUT",
                 types:      typeUpdate
             });
         } catch (error) {
@@ -50,14 +50,14 @@ module.exports = {
         }
     },
 
-    deleteTypeObject: async (req, res) => {
+    deleteTypeRol: async (req, res) => {
         try {
-            const { typeObjectId } = req.params;
-            const typeObjectDelete = await typeObjectModel.findByIdAndRemove(typeObjectId);
+            const { typeRolId } = req.params;
+            const typeRolDelete = await typeRolModel.findByIdAndRemove(typeRolId);
             res.status(200).json({
                 Ok:         true,
-                message:    "Congratulations, TypeObject Delete - DELETE",
-                types:      typeObjectDelete
+                message:    "Congratulations, TypeRol Delete - DELETE",
+                types:      typeRolDelete
             });
         } catch (error) {
             return res.status(404).json({

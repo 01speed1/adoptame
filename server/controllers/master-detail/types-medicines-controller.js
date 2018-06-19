@@ -1,24 +1,24 @@
-const typeObjectModel = require('../../models/master_detail/types-objects-model')
+const typeMedicineModel = require('../../models/master_detail/types-medicines-model')
 
 module.exports = {
 
-    getTypeObject: async (req, res) => { 
-        const types  = await typeObjectModel.find({});
+    getTypeMedicine: async (req, res) => { 
+        const types  = await typeMedicineModel.find({});
         res.status(200).json({ 
             Ok:         true,   
-            message:    "Congratulations, TypeObject List - GET",
-            typeObject:  types
+            message:    "Congratulations, TypeMedicine List - GET",
+            typeMedicine:  types
         })
     },
 
-    createTypeObject: async (req, res) => {  
+    createTypeMedicine: async (req, res) => {  
         try {            
-            const typeObject  = new typeObjectModel(req.body);
-                                await typeObject.save();
+            const typeMedicine  = new typeMedicineModel(req.body);
+                                await typeMedicine.save();
             res.status(200).json({
                 Ok:         true,
-                message:    "Congratulations, TypeObject Save - POST",
-                type:       typeObject
+                message:    "Congratulations, TypeMedicine Save - POST",
+                type:       typeMedicine
             });
         } catch (error) {
             return res.status(500).json({
@@ -30,15 +30,15 @@ module.exports = {
         
     },
 
-    updateTypeObject: async (req, res) => {
+    updateTypeMedicine: async (req, res) => {
         try {
             
-            const { typeObjectId } = req.params;
-            const newTypeObject    = req.body;
-            const typeUpdate         = await typeObjectModel.findByIdAndUpdate(typeObjectId, newTypeObject);
+            const { typeMedicineId } = req.params;
+            const newTypeMedicine    = req.body;
+            const typeUpdate         = await typeMedicineModel.findByIdAndUpdate(typeMedicineId, newTypeMedicine);
             res.status(200).json({
                 Ok:         true,
-                message:    "Congratulations, TypeObject Update - PUT",
+                message:    "Congratulations, TypeMedicine Update - PUT",
                 types:      typeUpdate
             });
         } catch (error) {
@@ -50,14 +50,14 @@ module.exports = {
         }
     },
 
-    deleteTypeObject: async (req, res) => {
+    deleteTypeMedicine: async (req, res) => {
         try {
-            const { typeObjectId } = req.params;
-            const typeObjectDelete = await typeObjectModel.findByIdAndRemove(typeObjectId);
+            const { typeMedicineId } = req.params;
+            const typeMedicineDelete = await typeMedicineModel.findByIdAndRemove(typeMedicineId);
             res.status(200).json({
                 Ok:         true,
-                message:    "Congratulations, TypeObject Delete - DELETE",
-                types:      typeObjectDelete
+                message:    "Congratulations, TypeMedicine Delete - DELETE",
+                types:      typeMedicineDelete
             });
         } catch (error) {
             return res.status(404).json({
@@ -68,7 +68,4 @@ module.exports = {
         }
 
     }
-
-
-
 };
