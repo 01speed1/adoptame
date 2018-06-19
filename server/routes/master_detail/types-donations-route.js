@@ -8,7 +8,7 @@ const {
     updateTypeDonation,
     deleteTypeDonation
 
-} = require('../../controllers/master-detail/donation-controller')
+} = require('../../controllers/master-detail/types-donations-controller')
 
 // GET TypeDonation
 router.get('/', getTypeDonation);

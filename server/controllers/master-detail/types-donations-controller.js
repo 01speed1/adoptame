@@ -1,4 +1,4 @@
-const typeDonationModel = require('../../models/master_detail/donation-model');
+const typeDonationModel = require('../../models/master_detail/types-donations-model');
 
 module.exports = {
 
