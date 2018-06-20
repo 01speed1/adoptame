@@ -18,6 +18,8 @@ const donationRoutes = require('./routes/master_detail/types-donations-route');
 const objectRoutes   = require('./routes/master_detail/types-objects-route');
 const medicineRoutes = require('./routes/master_detail/types-medicines-route');
 const rolesRoutes    = require('./routes/master_detail/types-roles-route');
+const complaintRoutes= require('./routes/master_detail/types-complaints-route');
+const rhRoutes       = require('./routes/master_detail/types-rhs-route');
 
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
@@ -43,6 +45,8 @@ app.use('/api/master/donation', donationRoutes);
 app.use('/api/master/objects', objectRoutes);
 app.use('/api/master/medicine', medicineRoutes);
 app.use('/api/master/roles', rolesRoutes);
+app.use('/api/master/complaint', complaintRoutes);
+app.use('/api/master/rh', rhRoutes);
 
 
 app.get('/', (req, res)=> { res.send('Ok in index'); })
