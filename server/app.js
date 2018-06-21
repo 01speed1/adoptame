@@ -21,6 +21,8 @@ const rolesRoutes    = require('./routes/master_detail/types-roles-route');
 const complaintRoutes= require('./routes/master_detail/types-complaints-route');
 const rhRoutes       = require('./routes/master_detail/types-rhs-route');
 
+const userRoutes     = require('./routes/user-route');
+
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
 (error, response) => {
@@ -48,7 +50,7 @@ app.use('/api/master/roles', rolesRoutes);
 app.use('/api/master/complaint', complaintRoutes);
 app.use('/api/master/rh', rhRoutes);
 
-
+app.use('/users', userRoutes);
 app.get('/', (req, res)=> { res.send('Ok in index'); })
 
 

@@ -35,7 +35,7 @@ module.exports = {
             
             const { typeObjectId } = req.params;
             const newTypeObject    = req.body;
-            const typeUpdate         = await typeObjectModel.findByIdAndUpdate(typeObjectId, newTypeObject);
+            const typeUpdate       = await typeObjectModel.findByIdAndUpdate(typeObjectId, newTypeObject);
             res.status(200).json({
                 Ok:         true,
                 message:    "Congratulations, TypeObject Update - PUT",
