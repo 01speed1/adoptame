@@ -22,6 +22,7 @@ const complaintRoutes= require('./routes/master_detail/types-complaints-route');
 const rhRoutes       = require('./routes/master_detail/types-rhs-route');
 
 const userRoutes     = require('./routes/user-route');
+const animalRoutes   = require('./routes/animal-route');
 
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
@@ -50,7 +51,8 @@ app.use('/api/master/roles', rolesRoutes);
 app.use('/api/master/complaint', complaintRoutes);
 app.use('/api/master/rh', rhRoutes);
 
-app.use('/users', userRoutes);
+app.use('/register/users', userRoutes);
+app.use('/register/animals', animalRoutes);
 app.get('/', (req, res)=> { res.send('Ok in index'); })
 
 
