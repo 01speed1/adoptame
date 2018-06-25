@@ -23,6 +23,7 @@ const rhRoutes       = require('./routes/master_detail/types-rhs-route');
 
 const donationFoodRoutes  = require('./routes/donation_types/donation-food-route');
 const donationBloodRoutes  = require('./routes/donation_types/donation-blood-route');
+const donationObjectRoutes  = require('./routes/donation_types/donation-object-route');
 
 const userRoutes     = require('./routes/user-route');
 const animalRoutes   = require('./routes/animal-route');
@@ -59,6 +60,7 @@ app.use('/register/animals', animalRoutes);
 
 app.use('/donation/type-food', donationFoodRoutes);
 app.use('/donation/type-blood', donationBloodRoutes);
+app.use('/donation/type-object', donationObjectRoutes);
 
 app.get('/', (req, res)=> { res.send('Ok in index'); })
 
