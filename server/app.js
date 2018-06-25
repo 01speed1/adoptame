@@ -21,7 +21,8 @@ const rolesRoutes    = require('./routes/master_detail/types-roles-route');
 const complaintRoutes= require('./routes/master_detail/types-complaints-route');
 const rhRoutes       = require('./routes/master_detail/types-rhs-route');
 
-const donationFoodRoutes  = require('./routes/donation_types/donation-food-route');
+const donationFoodRoutes     = require('./routes/donation_types/donation-food-route');
+const donationMedicineRoutes = require('./routes/donation_types/donation-medicine-route');
 
 const userRoutes     = require('./routes/user-route');
 const animalRoutes   = require('./routes/animal-route');
@@ -57,6 +58,7 @@ app.use('/register/users', userRoutes);
 app.use('/register/animals', animalRoutes);
 
 app.use('/donation/type-food', donationFoodRoutes);
+app.use('/donation/type-medicine', donationMedicineRoutes);
 
 app.get('/', (req, res)=> { res.send('Ok in index'); })
 
