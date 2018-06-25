@@ -19,6 +19,6 @@ var animalSchema = new Schema({
     age:        { type: Number , required: true},
     state:      { type: String , required: true, },
     adopted:    { type: Boolean, default: false}
-})
+}, { collection: 'animals'})
 
 module.exports = mongoose.model('Animal', animalSchema);

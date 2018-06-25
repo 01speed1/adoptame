@@ -4,7 +4,10 @@ module.exports = {
 
     getAnimals: async (req, res) => {        
         try {
-            let animals = await animalModel.find({});    
+            let animals = await animalModel.find({})
+                                            .populate('typeAnimal',)
+                                            .populate('typeRh')
+                                            .populate('typeBreed');    
             res.status(200).json({
                 Ok:             true,
                 message:        "Congratulations, animal - GET",

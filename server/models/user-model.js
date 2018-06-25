@@ -21,7 +21,7 @@ var userSchema = new Schema({
         longitude:  { type: Number }
     },
     createdAt: { type: Date, default: Date.now }    
-});
+}, { collection: 'users'});
 
 module.exports = mongoose.model('User', userSchema);
 
