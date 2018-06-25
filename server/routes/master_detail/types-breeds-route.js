@@ -6,7 +6,7 @@ const {
     createBreed,
     updateBreed,
     deleteBreed
-} = require('../../controllers/master-detail/breed-controller')
+} = require('../../controllers/master-detail/types-breeds-controller')
 
 // GET TypeAnimal
 router.get('/', getBreeds);

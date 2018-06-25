@@ -1,5 +1,5 @@
-const breedModel = require('../../models/master_detail/breed-model');
-const typeModel = require('../../models/master_detail/types-model');
+const breedModel = require('../../models/master_detail/types-breeds-model');
+const typeModel = require('../../models/master_detail/types-animals-model');
 
 module.exports = {
 

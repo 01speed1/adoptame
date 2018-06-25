@@ -1,4 +1,4 @@
-const typeModel = require('../../models/master_detail/types-model');
+const typeModel = require('../../models/master_detail/types-animals-model');
 
 // Controller 
 module.exports = {

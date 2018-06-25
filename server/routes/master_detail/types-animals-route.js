@@ -8,7 +8,7 @@ const {
     updateTypeAnimal,
     deleteTypeAnimal
 
-} = require('../../controllers/master-detail/types-controller')
+} = require('../../controllers/master-detail/types-animals-controller')
 
 // GET TypeAnimal
 router.get('/', getTypesAnimal);
