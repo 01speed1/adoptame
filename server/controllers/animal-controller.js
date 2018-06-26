@@ -42,7 +42,6 @@ module.exports = {
         }
     },
 
-
     updateanimal: async (req, res) => {
         try {
             let { animalId }            = req.params;
