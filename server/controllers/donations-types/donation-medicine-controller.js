@@ -4,7 +4,7 @@ module.exports = {
 
     getDonationMedicinesAll: async (req, res) => {        
         try {
-            let donationMedicines = await donationMedicineModel.find();    
+            let donationMedicines = await donationMedicineModel.find({}).populate('typeMedicine'); 
 
             res.status(200).json({
                 Ok:             true,
@@ -26,17 +26,20 @@ module.exports = {
     createDonationMedicine: async (req, res) => {
         try {
             let body = req.body;
-            let donationMedicine =  new donationMedicineModel();
-                donationMedicine.typeMedicine   = body.typeMedicine;
-                donationMedicine.form           = body.form;
-                donationMedicine.quantity       = body.quantity;
-                donationMedicine.especify.qsymbol = body.qsymbol;
-                donationMedicine.especify.symbol  = body.symbol;
-                donationMedicine.lote           = body.lote;
-                donationMedicine.expires        = body.expires;
-                donationMedicine.laboratory     = body.laboratory;
-
-                                    await donationMedicine.save();
+            let medicine =  new donationMedicineModel({
+                typeMedicine   : body.typeMedicine,
+                form           : body.form,
+                quantity       : body.quantity,
+                especify       : {
+                    qsymbol    : body.qsymbol,         
+                    symbol     : body.symbol
+                },
+                lote           : body.lote,
+                expires        : body.expires,
+                laboratory     : body.laboratory,
+                
+            });
+                                await medicine.save();
 
             res.status(200).json({
                 Ok:             true,
@@ -55,16 +58,32 @@ module.exports = {
 
 
     updateDonationMedicine: async (req, res) => {
-        try {
-            let { donationMedicineId } = req.params;
-            let body                   = req.body;  
-            let donationMedicineUpdate = await donationMedicineModel.findByIdAndUpdate(donationMedicineId, body);
-            
+        try {     
+
+            let { medicineId }   = req.params;
+            let body             = req.body;               
+
+            let medicineUpdate = {
+                typeMedicine: body.typeMedicine,
+                form        : body.form,
+                quantity    : body.quantity,
+                especify    : {
+                    qsymbol : body.qsymbol,
+                    symbol  : body.symbol
+                },            
+                lote        : body.lote,
+                expires     : body.expires,
+                laboratory  : body.laboratory
+            }                
+                    
+             await donationMedicineModel.findByIdAndUpdate(medicineId, medicineUpdate);                                  
+             let medicineUpdated = await donationMedicineModel.findById(medicineId);    
+
             res.status(200).json({
                 Ok:             true,
                 message:        "Congratulations, donationMedicine - PUT",
-                donationMedicines:  donationMedicineUpdate
-            })
+                donationMedicines:  medicineUpdated
+            });
 
         } catch (error) {
             
@@ -79,8 +98,8 @@ module.exports = {
 
     deleteDonationMedicine: async (req, res) => {
         try {
-            let { donationMedicineId } = req.params;
-            let donationMedicine       = await donationMedicineModel.findByIdAndRemove(donationMedicineId);
+            let { medicineId }   = req.params;
+            let donationMedicine = await donationMedicineModel.findByIdAndRemove(medicineId);
             
             res.status(200).json({
                 Ok:             true,
