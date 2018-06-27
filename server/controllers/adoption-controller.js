@@ -86,7 +86,7 @@ module.exports = {
 
     updateStateAnimalAndAdoption: async (req, res) => {
         let { adoptionId }  = req.params;                
-        let x = await adoptionModel.findById(adoptionId);
+        let x = await adoptionModel.findByIdAndUpdate(adoptionId, {confirmed: !false});
         
         // let x1 = Object.values(x)
         
