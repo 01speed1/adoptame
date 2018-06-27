@@ -12,8 +12,7 @@ module.exports = {
     },
 
     createTypeDonation: async (req, res) => {  
-        try {
-            console.log('Body', req.body);
+        try {            
             const typeDonation  = new typeDonationModel(req.body);
                                   await typeDonation.save();
             res.status(200).json({

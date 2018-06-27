@@ -21,7 +21,6 @@ const typeRolesRoutes    = require('./routes/master_detail/types-roles-route');
 const typeComplaintRoutes= require('./routes/master_detail/types-complaints-route');
 const typeRhRoutes       = require('./routes/master_detail/types-rhs-route');
 
-
 const donationMedicineRoutes = require('./routes/donation_types/donation-medicine-route');
 const donationFoodRoutes  = require('./routes/donation_types/donation-food-route');
 const donationBloodRoutes  = require('./routes/donation_types/donation-blood-route');
@@ -30,7 +29,9 @@ const donationMoneyRoutes  = require('./routes/donation_types/donation-money-rou
 
 const userRoutes     = require('./routes/user-route');
 const animalRoutes   = require('./routes/animal-route');
+const generateRoutes = require('./routes/donation-route');
 const complaintRoutes   = require('./routes/complaint-route');
+
 
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
@@ -70,6 +71,8 @@ app.use('/donation/type-blood', donationBloodRoutes);
 app.use('/donation/type-object', donationObjectRoutes);
 app.use('/donation/type-money', donationMoneyRoutes);
 app.use('/donation/type-medicine', donationMedicineRoutes);
+
+app.use('/generate/donation', generateRoutes);
 
 
 app.get('/', (req, res)=> { res.send('Ok in index'); })
