@@ -33,9 +33,11 @@ module.exports = {
     updateTypeMedicine: async (req, res) => {
         try {
             
-            const { typeMedicineId } = req.params;
-            const newTypeMedicine    = req.body;
-            const typeUpdate         = await typeMedicineModel.findByIdAndUpdate(typeMedicineId, newTypeMedicine);
+            let { typeMedicineId } = req.params;
+            let  newTypeMedicine   = req.body;
+                                     await typeMedicineModel.findByIdAndUpdate(typeMedicineId, newTypeMedicine);
+            let typeUpdate         = await typeMedicineModel.findById(typeMedicineId)
+
             res.status(200).json({
                 Ok:         true,
                 message:    "Congratulations, TypeMedicine Update - PUT",

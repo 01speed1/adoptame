@@ -28,18 +28,13 @@ module.exports = {
             let body = req.body;
             let medicine =  new donationMedicineModel({
                 typeMedicine   : body.typeMedicine,
-                form           : body.form,
                 quantity       : body.quantity,
-                especify       : {
-                    qsymbol    : body.qsymbol,         
-                    symbol     : body.symbol
-                },
                 lote           : body.lote,
                 expires        : body.expires,
                 laboratory     : body.laboratory,
                 
             });
-                                await medicine.save();
+                            await medicine.save();
 
             res.status(200).json({
                 Ok:             true,
@@ -65,12 +60,7 @@ module.exports = {
 
             let medicineUpdate = {
                 typeMedicine: body.typeMedicine,
-                form        : body.form,
-                quantity    : body.quantity,
-                especify    : {
-                    qsymbol : body.qsymbol,
-                    symbol  : body.symbol
-                },            
+                quantity    : body.quantity,           
                 lote        : body.lote,
                 expires     : body.expires,
                 laboratory  : body.laboratory

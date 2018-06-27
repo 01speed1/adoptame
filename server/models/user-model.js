@@ -10,6 +10,7 @@ var userSchema = new Schema({
         born: { type: Date },
         age:  { type: Number }
     },
+    rh:       { type: String, enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']},
     city:     { type: String },
     address:  { type: String, required: true },
     phone:    { type: String },
