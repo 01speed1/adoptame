@@ -1,4 +1,5 @@
 const adoptionModel = require('../models/adoption-model')
+const animalModel   = require('../models/animal-model')
 
 module.exports = {
 
@@ -86,14 +87,26 @@ module.exports = {
 
     updateStateAnimalAndAdoption: async (req, res) => {
         let { adoptionId }  = req.params;                
-        let x = await adoptionModel.findByIdAndUpdate(adoptionId, {confirmed: !false});
-        
-        // let x1 = Object.values(x)
-        
-        //            await adoptionModel.findByIdAndUpdate(adoptionId, update).populate('animal user')
-        // let upgrade = await adoptionModel.find({}).populate('animal user')
+        let adoption        = await adoptionModel.findById(adoptionId);   
 
-        res.json(x)
+        let animalId        = adoption.animal;
+        
+        let animal          = await animalModel.findById(animalId)        
+        
+        let adopted         = animal.adopted;
+
+                            await animalModel.findByIdAndUpdate(animalId, {adopted: !adopted})
+
+                            await adoptionModel.findByIdAndUpdate(adoptionId, {confirmed: !adoption.confirmed})
+
+        let upgrade         = await adoptionModel.find({}).populate('animal user')        
+        
+
+        res.status(200).json({
+            Ok:             true,
+            message:        "Congratulations, Adoption - UPDATE STATE ANIMAL",
+            adoption:       upgrade
+        })        
 
     }
     

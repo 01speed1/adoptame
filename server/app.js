@@ -32,6 +32,7 @@ const animalRoutes   = require('./routes/animal-route');
 const generateRoutes = require('./routes/donation-route');
 const complaintRoutes   = require('./routes/complaint-route');
 
+const adoptionRoutes = require('./routes/adoption-route')
 
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
@@ -73,6 +74,7 @@ app.use('/donation/type-money', donationMoneyRoutes);
 app.use('/donation/type-medicine', donationMedicineRoutes);
 
 app.use('/generate/donation', generateRoutes);
+app.use('/request/adoption', adoptionRoutes);
 
 
 app.get('/', (req, res)=> { res.send('Ok in index'); })
