@@ -1,18 +1,27 @@
 const donationModel = require('../models/donation-model');
-
 const typeDonation     = require('../models/master_detail/types-donations-model')
-
-const donationFood     = require('../models/donation_types/donation-food-model')
-const donationMedicine = require('../models/donation_types/donation-medicine-model')
-const donationBlood    = require('../models/donation_types/donation-blood-model')
-const donationObject   = require('../models/donation_types/donation-objects-model')
-
-// cambio :v 
-
 
 module.exports = { 
 
+    // GET
+    getDonationController: async (req, res) => {
+        try {
+            let donation = await donationModel.find({}).populate('type_donation donations user')
 
+            res.status(200).json({
+                Ok:             true,
+                message:        "Congratulations, donation - GET",
+                donation:        donation
+            })
+
+        } catch (error) {
+            res.status(500).json({
+                Ok:             false,
+                message:        "Ups! It's has a occured an error - GET", 
+                error:          error
+            })
+        }
+    },
 
 
 
@@ -22,10 +31,21 @@ module.exports = {
         try {
 
             let body = req.body;
-            let donation = new donationModel()
+            let donation = new donationModel({body})
+                donation = await donation.save()
+
+            res.status(200).json({
+                Ok:             true,
+                message:        "Congratulations, donation - POST",
+                donation:        donation
+            })
 
         } catch (error) {
-            
+            res.status(500).json({
+                Ok:             false,
+                message:        "Ups! It's has a occured an error - GET", 
+                error:          error
+            })
         }
 
     }
