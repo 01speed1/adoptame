@@ -31,7 +31,7 @@ module.exports = {
         try {
 
             let body = req.body;
-            let donation = new donationModel({body})
+            let donation = new donationModel(body)
                 donation = await donation.save()
 
             res.status(200).json({
@@ -48,8 +48,22 @@ module.exports = {
             })
         }
 
-    }
+    },
 
+    // PUT
+    updateDonation: async (req, res) => {
+        try {
+            let { donationId } = req.params;
+            let update         = { };
+            let donationupdate = await donationModel.findByIdAndUpdate(donationId, update);
+    
+            res.json(donationupdate)
+            
+        } catch (error) {
+            
+        }
+
+    }
 
 
 }

@@ -1,5 +1,6 @@
 const userModel = require('../models/user-model');
-var bcrypt = require('bcrypt');
+const bcrypt    = require('bcrypt');
+
 
 module.exports = {
 
@@ -9,7 +10,8 @@ module.exports = {
             res.status(200).json({
                 Ok:             true,
                 message:        "Congratulations, User - GET",
-                users:          users
+                users:          users,
+                token:          req.user.rol
             })
         } catch (error) {
             res.status(500).json({
@@ -34,9 +36,14 @@ module.exports = {
                 },
                 address:    body.address,
                 phone:      body.phone,
-                ubication:  null                  
-            });
-                        await user.save();
+                ubication:  null                         
+            }); 
+
+            if (body.rol) { 
+                user.rol = body.rol 
+            }            
+            
+            await user.save();            
 
             res.status(200).json({
                 Ok:             true,
