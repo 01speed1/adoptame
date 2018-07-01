@@ -14,6 +14,7 @@ var userSchema = new Schema({
     city:     { type: String },
     address:  { type: String, required: true },
     phone:    { type: String },
+    rol:      { type: String , enum: ['administrator', 'collaborator', 'guest', 'sheriff' ], default: 'guest' },
     ubication:  {        
         ip:         { type: String },
         city:       { type: String },

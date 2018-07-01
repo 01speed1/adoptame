@@ -6,7 +6,7 @@ const bodyParser    = require('body-parser');
 var mongoose        = require('mongoose');
 // Request Web
 const cors          = require('cors');
-
+const jwt           = require('jsonwebtoken');
 // Handler Directories
 // const path    = require('path');
 
@@ -32,6 +32,8 @@ const animalRoutes   = require('./routes/animal-route');
 const generateRoutes = require('./routes/donation-route');
 const complaintRoutes   = require('./routes/complaint-route');
 
+const adoptionRoutes = require('./routes/adoption-route')
+const loginRoutes    = require('./routes/auth/login')
 
 // Database
 mongoose.connection.openUri('mongodb://localhost:27017/adoptame', 
@@ -62,7 +64,6 @@ app.use('/api/master/rh', typeRhRoutes);
 
 app.use('/complaints', complaintRoutes);
 
-
 app.use('/register/users', userRoutes);
 app.use('/register/animals', animalRoutes);
 
@@ -72,7 +73,10 @@ app.use('/donation/type-object', donationObjectRoutes);
 app.use('/donation/type-money', donationMoneyRoutes);
 app.use('/donation/type-medicine', donationMedicineRoutes);
 
+app.use('/login', loginRoutes)
+
 app.use('/generate/donation', generateRoutes);
+app.use('/request/adoption', adoptionRoutes);
 
 
 app.get('/', (req, res)=> { res.send('Ok in index'); })

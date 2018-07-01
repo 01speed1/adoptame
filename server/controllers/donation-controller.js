@@ -1,17 +1,27 @@
 const donationModel = require('../models/donation-model');
-
 const typeDonation     = require('../models/master_detail/types-donations-model')
-
-const donationFood     = require('../models/donation_types/donation-food-model')
-const donationMedicine = require('../models/donation_types/donation-medicine-model')
-const donationBlood    = require('../models/donation_types/donation-blood-model')
-const donationObject   = require('../models/donation_types/donation-objects-model')
-
-
 
 module.exports = { 
 
+    // GET
+    getDonationController: async (req, res) => {
+        try {
+            let donation = await donationModel.find({}).populate('type_donation donations user')
 
+            res.status(200).json({
+                Ok:             true,
+                message:        "Congratulations, donation - GET",
+                donation:        donation
+            })
+
+        } catch (error) {
+            res.status(500).json({
+                Ok:             false,
+                message:        "Ups! It's has a occured an error - GET", 
+                error:          error
+            })
+        }
+    },
 
 
 
@@ -21,44 +31,39 @@ module.exports = {
         try {
 
             let body = req.body;
-            let donation = new donationModel()
+            let donation = new donationModel(body)
+                donation = await donation.save()
 
-                donation.type_donation = type_donation.push(req.type_donation);
-                
-                switch(body.donation){
-                    
-                    case 'blood':                        
-                        let blood = new donationBlood();
-                            donation.donatons.push(blood)
-                        break;
+            res.status(200).json({
+                Ok:             true,
+                message:        "Congratulations, donation - POST",
+                donation:        donation
+            })
 
-                    case 'food':
-                        let food = new donationFood();
-                            donation.donatons.push(food)
-                        break;                   
+        } catch (error) {
+            res.status(500).json({
+                Ok:             false,
+                message:        "Ups! It's has a occured an error - GET", 
+                error:          error
+            })
+        }
 
-                    case 'medicine':
-                        let medicine = new donationMedicine();
-                            donation.donatons.push(medicine)
-                        break;
-                    
-                    case 'object':
-                        let object = new donationObject();
-                            donation.donatons.push(object)
-                        break;
-                }
-                    
+    },
 
-
-
-
-
+    // PUT
+    updateDonation: async (req, res) => {
+        try {
+            let { donationId } = req.params;
+            let update         = { };
+            let donationupdate = await donationModel.findByIdAndUpdate(donationId, update);
+    
+            res.json(donationupdate)
+            
         } catch (error) {
             
         }
 
     }
-
 
 
 }

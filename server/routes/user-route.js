@@ -1,5 +1,7 @@
 // User Route
-const router = require('express').Router();
+const router        = require('express').Router();
+const middleware    = require('../middleware/autenticate')
+const permissions   = require('../middleware/permission')
 
 const {
 
@@ -11,7 +13,7 @@ const {
 } = require('../controllers/user-controller');
 
 // GET User
-router.get('/', getUsersAll);
+router.get('/', middleware.verifyToken, getUsersAll);
 
 // POST User
 router.post('/', createUser);
@@ -20,6 +22,6 @@ router.post('/', createUser);
 router.put('/:userId', updateUser);
 
 // DELETE User
-router.delete('/:userId', deleteUser);
+router.delete('/:userId', [middleware.verifyToken, permissions.verifyRol]    ,deleteUser);
 
 module.exports = router;
